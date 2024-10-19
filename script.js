@@ -81,19 +81,26 @@ const inputClosePin = document.querySelector('.form__input--pin');
 /////////////////////////////////////////////////
 // Functions
 
-const displayMovements = function (movements, sort = false) {
+const displayMovements = function (acc, sort = false) {
   containerMovements.innerHTML = '';
 
-  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+  const movs = sort
+    ? acc.movements.slice().sort((a, b) => a - b)
+    : acc.movements;
 
   movs.forEach(function (mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
-
+    const date = new Date(acc.movementsDates[i]);
+    const day = `${date.getDate()}`.padStart(2, '0');
+    const month = `${date.getMonth() + 1}`.padStart(2, '0');
+    const year = date.getFullYear();
+    const displayDate = `${day}/${month}/${year}`;
     const html = `
       <div class="movements__row">
         <div class="movements__type movements__type--${type}">${
       i + 1
     } ${type}</div>
+    <div class="movements__date">${displayDate}</div>
         <div class="movements__value">${mov.toFixed(2)}€</div>
       </div>
     `;
@@ -142,7 +149,7 @@ createUsernames(accounts);
 
 const updateUI = function (acc) {
   // Display movements
-  displayMovements(acc.movements);
+  displayMovements(acc);
 
   // Display balance
   calcDisplayBalance(acc);
@@ -154,6 +161,20 @@ const updateUI = function (acc) {
 ///////////////////////////////////////
 // Event handlers
 let currentAccount;
+
+currentAccount = account1;
+updateUI(currentAccount);
+containerApp.style.opacity = 100;
+
+const now = new Date();
+const day = `${now.getDate()}`.padStart(2, '0');
+const month = `${now.getMonth() + 1}`.padStart(2, '0');
+const year = now.getFullYear();
+const hour = now.getHours();
+const minute = now.getMinutes();
+labelDate.textContent = `${day}/${month}/${year} ${hour}:${minute}`;
+
+//day/month/year
 
 btnLogin.addEventListener('click', function (e) {
   // Prevent form from submitting
@@ -170,6 +191,15 @@ btnLogin.addEventListener('click', function (e) {
       currentAccount.owner.split(' ')[0]
     }`;
     containerApp.style.opacity = 100;
+    //Create current Date and Time
+
+    const now = new Date();
+    const day = `${now.getDate()}`.padStart(2, '0');
+    const month = `${now.getMonth() + 1}`.padStart(2, '0');
+    const year = now.getFullYear();
+    const hour = now.getHours();
+    const minute = now.getMinutes();
+    labelDate.textContent = `${day}/${month}/${year} ${hour}:${minute}`;
 
     // Clear input fields
     inputLoginUsername.value = inputLoginPin.value = '';
@@ -301,14 +331,72 @@ const randomInt = (min, max) => {
 
 // Rounding Integers
 
-console.log(Math.trunc(23.3));
-console.log(Math.round(23.3));
-console.log(Math.ceil(23.3));
-console.log(Math.floor(23.3));
+// console.log(Math.trunc(23.3));
+// console.log(Math.round(23.3));
+// console.log(Math.ceil(23.3));
+// console.log(Math.floor(23.3));
 
-//Rounding Decimals
+// //Rounding Decimals
 
-console.log((2.7).toFixed(0));
+// console.log((2.7).toFixed(0));
 
-console.log(8 % 3);
-console.log(5 / 2, 5 % 2);
+// console.log(8 % 3);
+// console.log(5 / 2, 5 % 2);
+// // Numeric Separator in javascript
+// const diameter = 284_746_000_000_000;
+// const priceCents = 345_678_900;
+// console.log(diameter);
+
+// console.log(priceCents);
+
+// const transferFee = 15_00;
+// const transferFee2 = 1_500;
+
+// console.log(transferFee, transferFee2);
+
+// const PI = 3.14_15;
+// console.log(Math.PI, PI);
+
+// console.log(Number('230000'));
+
+// let bigInt = BigInt(23);
+// console.log(bigInt);
+
+//Create a Date
+
+const date = new Date();
+
+// console.log(date);
+
+// console.log(new Date('2020 1 1'));
+// console.log(new Date('December 24, 2023'));
+
+// console.log(new Date(account1.movementsDates[0]));
+
+// console.log(new Date(2037, 10, 31));
+
+// console.log(new Date(0));
+
+// console.log(new Date(3 * 24 * 60 * 60 * 1000));
+
+//Working  with Dates
+
+// const future = new Date(2037, 10, 19, 15, 23);
+// console.log(future);
+// console.log(future.getFullYear());
+// console.log(future.getMonth());
+// console.log(future.getDay());
+// console.log(future.getDate());
+// console.log(future.getHours());
+// console.log(future.getMinutes());
+// console.log(future.getSeconds());
+// console.log(future.toISOString());
+// console.log(future.getTime());
+
+// console.log(new Date(future.getTime()));
+
+// console.log(Date.now());
+
+// future.setFullYear(2024);
+
+// console.log(future);
